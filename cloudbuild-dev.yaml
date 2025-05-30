@@ -1,4 +1,3 @@
-cat <<EOF > cloudbuild-dev.yaml
 steps:
   # Step 1: Compile the Go Application
   - name: 'gcr.io/cloud-builders/go'
@@ -10,7 +9,7 @@ steps:
     args: [
       'build',
       '-t',
-      'us-west1-docker.pkg.dev/\$PROJECT_ID/my-repository/hello-cloudbuild-dev:\$SHORT_SHA',
+      'us-west1-docker.pkg.dev/$PROJECT_ID/my-repository/hello-cloudbuild-dev:$SHORT_SHA',
       '.'
     ]
 
@@ -18,7 +17,7 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'push',
-      'us-west1-docker.pkg.dev/\$PROJECT_ID/my-repository/hello-cloudbuild-dev:\$SHORT_SHA'
+      'us-west1-docker.pkg.dev/$PROJECT_ID/my-repository/hello-cloudbuild-dev:$SHORT_SHA'
     ]
 
   # Step 4: Apply the dev deployment YAML file to the dev namespace
@@ -30,8 +29,7 @@ steps:
       - 'CLOUDSDK_CONTAINER_CLUSTER=hello-cluster'
 
 images:
-  - 'us-west1-docker.pkg.dev/\$PROJECT_ID/my-repository/hello-cloudbuild-dev:\$SHORT_SHA'
+  - 'us-west1-docker.pkg.dev/$PROJECT_ID/my-repository/hello-cloudbuild-dev:$SHORT_SHA'
 
 options:
   logging: CLOUD_LOGGING_ONLY
-EOF
