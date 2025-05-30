@@ -9,7 +9,7 @@ steps:
     args: [
       'build',
       '-t',
-      'us-west1-docker.pkg.dev/$PROJECT_ID/my-repository/hello-cloudbuild-dev:$SHORT_SHA',
+      'us-west1-docker.pkg.dev/$PROJECT_ID/my-repository/hello-cloudbuild-dev:v1.0',
       '.'
     ]
 
@@ -17,7 +17,7 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'push',
-      'us-west1-docker.pkg.dev/$PROJECT_ID/my-repository/hello-cloudbuild-dev:$SHORT_SHA'
+      'us-west1-docker.pkg.dev/$PROJECT_ID/my-repository/hello-cloudbuild-dev:v1.0'
     ]
 
   # Step 4: Apply the dev deployment YAML file to the dev namespace
