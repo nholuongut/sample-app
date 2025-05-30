@@ -31,8 +31,6 @@ steps:
       - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
       - 'CLOUDSDK_CONTAINER_CLUSTER=hello-cluster'
 
-images:
-  - 'us-west1-docker.pkg.dev/$PROJECT_ID/my-repository/hello-cloudbuild:$SHORT_SHA'
 
 options:
   logging: CLOUD_LOGGING_ONLY
