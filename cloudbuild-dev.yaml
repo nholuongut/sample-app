@@ -6,18 +6,30 @@ steps:
 
   # Step 2: Build the Docker image for the Go application
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', '<your-region>-docker.pkg.dev/$PROJECT_ID/my-repository/hello-cloudbuild-dev:<version>', '.']
+    args: [
+      'build',
+      '-t',
+      'us-west1-docker.pkg.dev/$PROJECT_ID/my-repository/hello-cloudbuild-dev:$SHORT_SHA',
+      '.'
+    ]
 
   # Step 3: Push the Docker image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', '<your-region>-docker.pkg.dev/$PROJECT_ID/my-repository/hello-cloudbuild-dev:<version>']
+    args: [
+      'push',
+      'us-west1-docker.pkg.dev/$PROJECT_ID/my-repository/hello-cloudbuild-dev:$SHORT_SHA'
+    ]
 
-  # Step 4: Apply the production deployment YAML file to the production namespace
+  # Step 4: Apply the dev deployment YAML file to the dev namespace
   - name: 'gcr.io/cloud-builders/kubectl'
     id: 'Deploy'
     args: ['-n', 'dev', 'apply', '-f', 'dev/deployment.yaml']
     env:
-    - 'CLOUDSDK_COMPUTE_REGION=<your-zone>'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=hello-cluster'
+      - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=hello-cluster'
+
+images:
+  - 'us-west1-docker.pkg.dev/$PROJECT_ID/my-repository/hello-cloudbuild-dev:$SHORT_SHA'
+
 options:
- logging: CLOUD_LOGGING_ONLY
+  logging: CLOUD_LOGGING_ONLY
