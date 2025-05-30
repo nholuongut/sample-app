@@ -5,13 +5,13 @@ steps:
     env: ['GOPATH=/gopath']
     args: ['build', '-o', 'main', 'main.go']
 
-  # Step 2: Build the Docker image
+  # Step 2: Build the Docker image with tag v1.0
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Build Docker image'
     args: [
       'build',
       '-t',
-      'us-west1-docker.pkg.dev/$PROJECT_ID/my-repository/hello-cloudbuild:$SHORT_SHA',
+      'us-west1-docker.pkg.dev/qwiklabs-gcp-03-56fed60c6229/my-repository/hello-cloudbuild:v1.0',
       '.'
     ]
 
@@ -20,7 +20,7 @@ steps:
     id: 'Push Docker image'
     args: [
       'push',
-      'us-west1-docker.pkg.dev/$PROJECT_ID/my-repository/hello-cloudbuild:$SHORT_SHA'
+      'us-west1-docker.pkg.dev/qwiklabs-gcp-03-56fed60c6229/my-repository/hello-cloudbuild:v1.0'
     ]
 
   # Step 4: Deploy to GKE (prod namespace)
@@ -31,6 +31,6 @@ steps:
       - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
       - 'CLOUDSDK_CONTAINER_CLUSTER=hello-cluster'
 
-
 options:
   logging: CLOUD_LOGGING_ONLY
+
